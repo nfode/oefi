@@ -2,7 +2,7 @@
 
 Get train/bus departures for public transport (öffentlicher Personalnahverkehr) in Germany.
 
-[![asciicast](https://asciinema.org/a/WLL8IOt68PRj2mwdG1ndSly0x.svg)](https://asciinema.org/a/WLL8IOt68PRj2mwdG1ndSly0x)
+[![asciicast](https://asciinema.org/a/Q6reoxtFK3vvUlCyeYVJvCUdl.svg)](https://asciinema.org/a/Q6reoxtFK3vvUlCyeYVJvCUdl)
 
 ## Installation
 
@@ -30,3 +30,4 @@ echo "source <(oefi completion)" >> .zshrc
 ```
 
 or add `source <(oefi completion)` manually to your `.zshrc`.
+

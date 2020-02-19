@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	url2 "net/url"
 )
 
 type Client struct {
@@ -17,11 +18,12 @@ type SearchResponse struct {
 }
 
 func (c Client) Search(search string) []SearchResponse {
-	url := fmt.Sprintf("%v/stations?query=%v", c.Adress, search)
+	url := fmt.Sprintf("%v/stations?query=%v", c.Adress, url2.QueryEscape(search))
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err)
 	}
+
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
@@ -36,9 +38,9 @@ type LineResponse struct {
 	Name string
 }
 type DeparturesResponse struct {
-	When string
+	When      string
 	Direction string
-	Line LineResponse
+	Line      LineResponse
 }
 
 func (c Client) Departures(stationId string) []DeparturesResponse {

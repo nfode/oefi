@@ -2,4 +2,4 @@ module github.com/nfode/oefi
 
 go 1.13
 
-require github.com/spf13/cobra v0.0.5
+require github.com/urfave/cli/v2 v2.1.1

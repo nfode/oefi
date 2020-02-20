@@ -1,4 +1,4 @@
-package cmd
+package stationcache
 
 import (
 	"bufio"
@@ -8,8 +8,8 @@ import (
 	"strings"
 )
 
-var cacheDir = os.Getenv("HOME") + "/.cache/oefi"
-var cacheFile = cacheDir + "/cache"
+var cacheDir = os.Getenv("HOME") + "/.oefi/cache"
+var cacheFile = cacheDir + "/stationcache"
 
 func init() {
 	if _, err := os.Stat(cacheDir); os.IsNotExist(err) {
@@ -17,7 +17,7 @@ func init() {
 	}
 }
 
-func writeToCache(stations []string) {
+func Write(entries []string) {
 	f, err := os.OpenFile(cacheFile,
 		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
@@ -26,7 +26,7 @@ func writeToCache(stations []string) {
 	defer f.Close()
 
 	builder := strings.Builder{}
-	for _, station := range stations {
+	for _, station := range entries {
 		builder.WriteString(fmt.Sprintf("%v\n", station))
 	}
 
@@ -35,7 +35,7 @@ func writeToCache(stations []string) {
 	}
 }
 
-func findStations(search string) []string {
+func Find(search string) []string {
 	if _, err := os.Stat(cacheFile); os.IsNotExist(err) {
 		return []string{}
 	}

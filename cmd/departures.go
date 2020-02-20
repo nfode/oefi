@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/nfode/oefi/internal/stationcache"
 	"github.com/nfode/oefi/pkg/api"
 	"github.com/urfave/cli/v2"
 	"os"
@@ -45,7 +46,7 @@ func completeDeparturesCmd(api *api.Client) cli.BashCompleteFunc {
 		search := os.Args[len(os.Args)-2]
 		if search != "" {
 			possibleStation := api.Search(search)
-			cachedStations := findStations(search)
+			cachedStations := stationcache.Find(search)
 			stations := append([]string{}, cachedStations...)
 			for _, station := range possibleStation {
 				name := sanitizeStationName(station.Name)
@@ -63,7 +64,7 @@ func completeDeparturesCmd(api *api.Client) cli.BashCompleteFunc {
 					result = append(result, name)
 				}
 			}
-			writeToCache(result)
+			stationcache.Write(result)
 		}
 	}
 }

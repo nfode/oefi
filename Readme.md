@@ -19,15 +19,15 @@ Bash is currently not implemented
 
 To use completion run:
 ```
-source <(oefi completion)
+source <(oefi completion zsh)
 ```
 This works until you end the session.
 
 If you want to load completions for each sessions run:
 
 ```
-echo "source <(oefi completion)" >> .zshrc
+echo "source <(oefi completion zsh)" >> .zshrc
 ```
 
-or add `source <(oefi completion)` manually to your `.zshrc`.
+or add `source <(oefi completion zsh)` manually to your `.zshrc`.
 

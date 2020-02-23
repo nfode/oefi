@@ -41,6 +41,7 @@ type DeparturesResponse struct {
 	When      string
 	Direction string
 	Line      LineResponse
+	Platform  string
 }
 
 func (c Client) Departures(stationId string) []DeparturesResponse {

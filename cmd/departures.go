@@ -2,11 +2,19 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/nfode/oefi/internal/helper"
+	"github.com/nfode/oefi/internal/out"
 	"github.com/nfode/oefi/internal/stationcache"
 	"github.com/nfode/oefi/pkg/api"
 	"github.com/urfave/cli/v2"
 	"os"
-	"text/tabwriter"
+)
+
+const (
+	LINE      = "Line"
+	PLATFORM  = "Platform"
+	DEPARTURE = "Departure"
+	TO        = "To"
 )
 
 func NewCmdDeparture(api *api.Client) *cli.Command {
@@ -26,16 +34,18 @@ func run(api *api.Client) func(ctx *cli.Context) error {
 		}
 		result := api.Departures(possibleStation[0].Id)
 		// initialize tabwriter
-		w := new(tabwriter.Writer)
-
-		// minwidth, tabwidth, padding, padchar, flags
-		w.Init(os.Stdout, 8, 8, 0, '\t', 0)
-		fmt.Fprintf(w, "%s\t%s\t%s\t", "Line", "Departure", "To")
-		fmt.Fprintf(w, "\n %s\t%s\t%s\t", "----", "----", "----")
-		for _, departures := range result {
-			fmt.Fprintf(w, "\n %v\t%v\t%v\t", departures.Line.Name, departures.When, departures.Direction)
+		printer := out.TablePrinter{
+			Cols:   4,
+			Header: []string{LINE, PLATFORM, DEPARTURE, TO},
 		}
-		w.Flush()
+		for _, departures := range result {
+			printer.AddLine(map[string]string{
+				LINE:      departures.Line.Name,
+				PLATFORM:  departures.Platform,
+				DEPARTURE: *helper.FormatTimeStr(departures.When),
+				TO:        departures.Direction})
+		}
+		printer.Print()
 		fmt.Print("\n")
 		return nil
 	}
